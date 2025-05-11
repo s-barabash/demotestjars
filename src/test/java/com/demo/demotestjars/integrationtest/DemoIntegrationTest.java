@@ -16,36 +16,50 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@Import(DemoAppConfig.class)
+@Import({DemoAppConfig.class})
 public class DemoIntegrationTest {
 
-    @LocalServerPort
-    private int port;
+  @LocalServerPort
+  private int port;
 
-    @BeforeEach
-    void setUp() {
-        RestAssured.port = port;
-    }
+  @BeforeEach
+  void setUp() {
+    RestAssured.port = port;
+  }
 
-    @Test
-    void testGetBooks_extractAndAssert() {
+  @Test
+  void testGetBooks_extractAndAssert() {
 
-        // Act: Call GET /demo/books and extract list
-        List<Book> books = given()
-            .when()
-            .get("/demo/books")
-            .then()
-            .statusCode(200)
-            .extract()
-            .as(new TypeRef<>() {});
+    Book newBook = new Book();
+    newBook.setTitle("Test Driven Development");
+    newBook.setAuthor("Kent Beck");
+    newBook.setYear(2003);
 
-        // Assert: Check that the new book is in the list
-        assertThat(books)
-            .isNotEmpty()
-            .anySatisfy(book -> {
-                assertThat(book.getTitle()).isEqualTo("Clean Code");
-                assertThat(book.getAuthor()).isEqualTo("Robert C. Martin");
-                assertThat(book.getYear()).isEqualTo(2008);
-            });
-    }
+    given()
+        .contentType("application/json")
+        .body(newBook)
+        .when()
+        .post("/demo/books")
+        .then()
+        .statusCode(200);
+
+    // Act: Call GET /demo/books and extract list
+    List<Book> books = given()
+        .when()
+        .get("/demo/books")
+        .then()
+        .statusCode(200)
+        .extract()
+        .as(new TypeRef<>() {
+        });
+
+    // Assert: Check that the new book is in the list
+    assertThat(books)
+        .isNotEmpty()
+        .anySatisfy(book -> {
+          assertThat(book.getTitle()).isEqualTo(newBook.getTitle());
+          assertThat(book.getAuthor()).isEqualTo(newBook.getAuthor());
+          assertThat(book.getYear()).isEqualTo(newBook.getYear());
+        });
+  }
 }

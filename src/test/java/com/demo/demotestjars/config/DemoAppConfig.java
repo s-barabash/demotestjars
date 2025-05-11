@@ -10,9 +10,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.experimental.boot.server.exec.CommonsExecWebServerFactoryBean;
 
 @TestConfiguration
+//@EnableDynamicProperty - does not work
 public class DemoAppConfig {
 
   @Bean
+//  @DynamicProperty(name = "server.port", value = "18083") - does not work
   static CommonsExecWebServerFactoryBean bookShelfServer() {
     return CommonsExecWebServerFactoryBean.builder()
         .useRandomPort(false)
