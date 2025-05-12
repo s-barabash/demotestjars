@@ -8,6 +8,7 @@ import java.util.Properties;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.experimental.boot.server.exec.CommonsExecWebServerFactoryBean;
+//import static org.springframework.experimental.boot.server.exec.MavenClasspathEntry; - does not exist in testjars
 
 @TestConfiguration
 //@EnableDynamicProperty - does not work
@@ -21,6 +22,7 @@ public class DemoAppConfig {
         .systemProperties((props) -> props.putAll(getBookShelfProperties()))
         .classpath(cp -> cp
             .files("target/test-libs/bookshelf.jar")
+//            .entries(new MavenClasspathEntry("com.example:bookshelf:0.0.1-SNAPSHOT") - does not exist in testjars
         );
   }
 
