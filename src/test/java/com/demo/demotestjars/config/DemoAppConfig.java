@@ -8,7 +8,7 @@ import java.util.Properties;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.experimental.boot.server.exec.CommonsExecWebServerFactoryBean;
-//import static org.springframework.experimental.boot.server.exec.MavenClasspathEntry; - does not exist in testjars
+import org.springframework.experimental.boot.server.exec.MavenClasspathEntry;
 
 @TestConfiguration
 //@EnableDynamicProperty - does not work
@@ -21,8 +21,10 @@ public class DemoAppConfig {
         .useRandomPort(false)
         .systemProperties((props) -> props.putAll(getBookShelfProperties()))
         .classpath(cp -> cp
-            .files("target/test-libs/bookshelf.jar")
-//            .entries(new MavenClasspathEntry("com.example:bookshelf:0.0.1-SNAPSHOT") - does not exist in testjars
+            .entries(
+                new MavenClasspathEntry("com.example:bookshelf:0.0.1-SNAPSHOT"),
+                new MavenClasspathEntry("com.h2database:h2:2.3.232")
+                )
         );
   }
 

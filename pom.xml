@@ -63,6 +63,12 @@
     </dependency>
 
     <dependency>
+      <groupId>org.springframework.experimental.boot</groupId>
+      <artifactId>spring-boot-testjars-maven</artifactId>
+      <version>0.0.4</version>
+    </dependency>
+
+    <dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>rest-assured</artifactId>
       <version>5.4.0</version>
@@ -105,31 +111,6 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>3.6.0</version>
-        <executions>
-          <execution>
-            <id>copy-bookshelf-jar</id>
-            <phase>process-test-classes</phase>
-            <goals>
-              <goal>copy</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>com.example</groupId>
-                  <artifactId>bookshelf</artifactId>
-                  <version>0.0.1-SNAPSHOT</version>
-                  <outputDirectory>${project.build.directory}/test-libs</outputDirectory>
-                  <destFileName>bookshelf.jar</destFileName>
-                </artifactItem>
-              </artifactItems>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
